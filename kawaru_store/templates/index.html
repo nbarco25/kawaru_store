@@ -21,11 +21,13 @@
 
             <div class="row">
                 <ul class="list-group">
-                    {%for in lista-productos%}
+                    {%for producto in productos%}
                     <li class="list-group-item">
-                        {{lista-productos.titulo}} {%if lista-productos.stock%}
-                        <span class="text-succes"></span> {%end if%}
-                    </li> {%end for%}
+                        <p> {{producto.titulo}} {%if producto.stock %}
+                            <span class="text-success">Disponible!</span> {%else%}
+                            <span class="text-danger">No disponible!</span> {%endif%}
+                        </p>
+                    </li> {%endfor%}
                 </ul>
             </div>
 

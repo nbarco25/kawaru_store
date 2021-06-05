@@ -9,7 +9,7 @@ def index(request):
         'booleano': True,
         'lista': [1,2,3,3,5,3],
         
-        'lista-productos': [
+        'productos': [
             {'titulo': 'Televisor', 'Precio': 2000000, 'stock': True}, #producto
             {'titulo': 'Carro', 'Precio': 12000000, 'stock': True },
             {'titulo': 'Computador', 'Precio': 800000, 'stock': False}
