@@ -9,7 +9,7 @@ from products.models import Product
 
 
 def index(request):
- 
+     
     lista_productos = Product.objects.all().order_by('-id') #obtengo la lista de productos ordenados del mas reciente al más antiguo, luego lo muestro en el template  index.html
     
     return render(request,'index.html',{
