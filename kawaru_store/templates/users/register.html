@@ -1,67 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-</head>
+<div class="col">
+    <h2>Registro</h2>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2>Registro</h2>
+    <!-- Formulario Django -->
 
-                <!-- Formulario Django -->
+    <form method="post">
+        {% csrf_token %}
 
-                <form method="post">
-                    {% csrf_token %}
-
-                    <!-- 
-                    si deseamos mostrar algunos campos,
-                    <div class="form-group">
-                        {{ form.username.label_tag}} {{ form.username }}
-                    </div>
-                    <p></p>
-                    <div class="form-group">
-                        {{ form.email.label_tag}} {{ form.email }}
-                    </div>
-                    <p></p>
-                    <div class="form-group">
-                        {{ form.password.label_tag}} {{ form.password }}
-                    </div>
-                    <p></p>
-                    -->
-
-                    <!-- Si deseamos mostrar TODOS los campos-->
-                    {% for campo in form %}
-                    <div class="form-group">
-
-                        {{ campo.label_tag}} {{ campo }} {% if campo.errors %}
-                        <span style="color: red;">{{ campo.errors }}</span> {% endif %}
-
-                    </div>
-
-                    {% endfor %}
-
-
-
-                    <button type="submit" class="btn btn-primary">Registrar</button>
-
-                </form>
-
-
-
-            </div>
+        <!-- 
+        si deseamos mostrar algunos campos,
+        <div class="form-group">
+            {{ form.username.label_tag}} {{ form.username }}
         </div>
-    </div>
+        <p></p>
+        <div class="form-group">
+            {{ form.email.label_tag}} {{ form.email }}
+        </div>
+        <p></p>
+        <div class="form-group">
+            {{ form.password.label_tag}} {{ form.password }}
+        </div>
+        <p></p>
+        -->
 
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+        <!-- Si deseamos mostrar TODOS los campos-->
+        {% for campo in form %}
+        <div class="form-group">
 
-</html>
+            {{ campo.label_tag}} {{ campo }} {% if campo.errors %}
+            <span style="color: red;">{{ campo.errors }}</span> {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+
+
+        <button type="submit" class="btn btn-primary">Registrar</button>
+
+    </form>
+
+
+
+</div>{% endblock %}
