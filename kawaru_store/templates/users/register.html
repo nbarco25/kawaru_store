@@ -21,6 +21,7 @@
                     {% csrf_token %}
 
                     <!-- 
+                    si deseamos mostrar algunos campos,
                     <div class="form-group">
                         {{ form.username.label_tag}} {{ form.username }}
                     </div>
@@ -35,7 +36,7 @@
                     <p></p>
                     -->
 
-
+                    <!-- Si deseamos mostrar TODOS los campos-->
                     {% for campo in form %}
                     <div class="form-group">
 
