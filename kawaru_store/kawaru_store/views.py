@@ -27,6 +27,11 @@ def index(request):
 def login_view(request):
     print(request.method) #Visualizar en consola el método por el cual se está haciendo la petición
     #Condicional para obtener la información que se envía en el login a través del método POST
+    
+    if request.user.is_authenticated: #validamos que si el usuario ya está logueado no pueda acceder al login desde la url
+        return redirect('index')
+        
+    
     if request.method == 'POST':
         username = request.POST.get('username') #diccionario
         password = request.POST.get('password') #El método get del diccionario si no encuentra nada retorna None
@@ -58,6 +63,10 @@ def logout_view(request):
     return redirect('login')
 
 def register(request):
+    
+    if request.user.is_authenticated:
+        return redirect('index') #validamos que no se pueda acceder al formulario registro desde la url si ya es un usuario logueado        
+    
     form = RegisterForm(request.POST or None) #con los datos que el cliente envia o campos vacíos
     
     if request.method == 'POST' and form.is_valid(): #Si la petición es por método post y el formulario es válido
