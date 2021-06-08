@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate
-from django.contrib.auth import login #para generar la sesión
+from django.contrib.auth import login, logout #para generar la sesión
 from django.contrib import messages
+from .forms import RegisterForm
 
 def index(request):
  
@@ -18,7 +19,6 @@ def index(request):
             {'titulo': 'Computador', 'Precio': 800000, 'stock': False}
         ]
     })
-    
     
 def login_view(request):
     print(request.method) #Visualizar en consola el método por el cual se está haciendo la petición
@@ -46,4 +46,15 @@ def login_view(request):
         
     return render(request, 'users/login.html', {
         
+    })
+    
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Sesión cerrada exitosamente!')
+    return redirect('login')
+
+def register(request):
+    form = RegisterForm()
+    return render(request, 'users/register.html', {
+        'form': form
     })
