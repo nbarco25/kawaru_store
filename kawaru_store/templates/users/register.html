@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="col">
+    <h2>Registro</h2>
+
+    <!-- Formulario Django -->
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- 
+        si deseamos mostrar algunos campos,
+        <div class="form-group">
+            {{ form.username.label_tag}} {{ form.username }}
+        </div>
+        <p></p>
+        <div class="form-group">
+            {{ form.email.label_tag}} {{ form.email }}
+        </div>
+        <p></p>
+        <div class="form-group">
+            {{ form.password.label_tag}} {{ form.password }}
+        </div>
+        <p></p>
+        -->
+
+        <!-- Si deseamos mostrar TODOS los campos-->
+        {% for campo in form %}
+        <div class="form-group">
+
+            {{ campo.label_tag}} {{ campo }} {% if campo.errors %}
+            <span style="color: red;">{{ campo.errors }}</span> {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+
+
+        <button type="submit" class="btn btn-primary">Registrar</button>
+
+    </form>
+
+
+
+</div>{% endblock %}
