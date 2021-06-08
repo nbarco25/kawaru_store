@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 class RegisterForm(forms.Form):
     username = forms.CharField(required=True, 
@@ -20,4 +21,20 @@ class RegisterForm(forms.Form):
                                    'id': 'password',
                                    'placeholder': 'contraseña'
                                }))
+    
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username') #obtenemos la información del input
+        
+        if User.objects.filter(username=username).exists(): #validamos si ya existe el valor del campo ingresado
+            raise forms.ValidationError('El nombre de usuario ya se encuentra en uso') #Si existe, enviamos un error y mostramos en el template
+        return username #si no existe error retornamos el valor del campo
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('El email ya se encuentra en uso')
+        
+        return email
     

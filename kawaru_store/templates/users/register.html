@@ -40,7 +40,8 @@
                     {% for campo in form %}
                     <div class="form-group">
 
-                        {{ campo.label_tag}} {{ campo }}
+                        {{ campo.label_tag}} {{ campo }} {% if campo.errors %}
+                        <span style="color: red;">{{ campo.errors }}</span> {% endif %}
 
                     </div>
 
