@@ -5,9 +5,16 @@
         <ul class="list-group">
             {%for producto in productos%}
             <li class="list-group-item">
-                <p> {{producto.titulo}} {%if producto.stock %}
+                <p> {{producto.nombre}}
+
+                    <span class="text-success">${{producto.precio}}</span>
+
+                    <!--
+                    {%if producto.stock %}
                     <span class="text-success">Disponible!</span> {%else%}
-                    <span class="text-danger">No disponible!</span> {%endif%}
+                    <span class="text-danger">No disponible!</span> 
+                    {%endif%}
+                    -->
                 </p>
             </li> {%endfor%}
         </ul>
