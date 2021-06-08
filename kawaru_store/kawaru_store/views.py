@@ -3,6 +3,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login, logout #para generar la sesión
 from django.contrib import messages
 from .forms import RegisterForm
+from django.contrib.auth.models import User
+
+
+
 
 def index(request):
  
@@ -54,16 +58,19 @@ def logout_view(request):
     return redirect('login')
 
 def register(request):
-    form = RegisterForm(request.POST or None)
+    form = RegisterForm(request.POST or None) #con los datos que el cliente envia o campos vacíos
     
-    if request.method == 'POST' and form.is_valid():
-        username = form.cleaned_data.get('username') #diccionario
+    if request.method == 'POST' and form.is_valid(): #Si la petición es por método post y el formulario es válido
+        username = form.cleaned_data.get('username') #diccionario cleaned_data con el que podemos obtener el valor de los atributos del formulario
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
         
-        print(username)
-        print(email)
-        print(password)
+        user = User.objects.create_user(username, email, password); #create user se encarga de encriptar el password!!!
+        
+        if user:
+            login(request, user)
+            messages.success(request, 'Usuario creado exitosamente!');
+            return redirect('index')
     
     return render(request, 'users/register.html', {
         'form': form
