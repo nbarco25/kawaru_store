@@ -7,7 +7,7 @@ from django.db.models.signals import pre_save
 class Product(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField()
-    precio = models.DecimalField(max_digits=8, decimal_places=2, default=0.0) #decimal_places (cuantos dígitos despues de la , voy a usar)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.0) #decimal_places (cuantos dígitos despues de la , voy a usar)
     imagen = models.ImageField(upload_to='products/', null=False, blank=False)
     slug = models.SlugField(null=False, blank=False, unique=True)
     creado_en = models.DateTimeField(auto_now_add=True) #para que se tome la fecha y hora exacta de creación desde el sist

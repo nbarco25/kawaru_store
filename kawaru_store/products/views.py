@@ -12,7 +12,7 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs) 
         context['message'] = 'Lista de productos'
         print(context) 
-        context['productos'] = context['product_list']
+        #context['productos'] = context['product_list']
         return context
 
 class ProductDetailView(DetailView): #Busqueda por id que es la pk
@@ -25,3 +25,22 @@ class ProductDetailView(DetailView): #Busqueda por id que es la pk
         context = super().get_context_data(**kwargs) 
         print(context) #aqui encontraremos la llave product que vamos a usar en el template
         return context
+    
+class ProductSearchListView(ListView):
+    template_name = 'products/search.html'
+    
+    def get_queryset(self):
+        
+        #SELECT * FROM products WHERE nombre like 'lo_que_escriban'
+        return Product.objects.filter(nombre__icontains=self.query()) #Consulta para buscar el producto 
+    
+    def query(self):
+        return self.request.GET.get('q')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) 
+        context['query'] = self.query()
+        context['count'] = context['product_list'].count()
+        print(context) #aqui encontraremos la llave product que vamos a usar en el template
+        return context
+    
