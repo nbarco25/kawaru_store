@@ -7,6 +7,6 @@
             {{ producto.nombre }}
         </h5>
         <p class="card-text">{{ producto.descripcion }}</p>
-        <a href="#" class="btn btn-primary">Ver más</a>
+        <a href="{% url 'products:product' producto.slug %}" class="btn btn-primary">Ver más</a>
     </div>
 </div>
