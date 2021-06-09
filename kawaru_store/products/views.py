@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from .models import Product
 from django.views.generic.detail import DetailView
-
+from django.db.models import Q #aplicar consulta con dif filtros
 
 class ProductListView(ListView):
     template_name = 'index.html'
@@ -31,8 +31,9 @@ class ProductSearchListView(ListView):
     
     def get_queryset(self):
         
+        filters = Q(nombre__icontains=self.query()) | Q(category__nombre__icontains=self.query())
         #SELECT * FROM products WHERE nombre like 'lo_que_escriban'
-        return Product.objects.filter(nombre__icontains=self.query()) #Consulta para buscar el producto 
+        return Product.objects.filter(filters) #Consulta para buscar el producto 
     
     def query(self):
         return self.request.GET.get('q')
