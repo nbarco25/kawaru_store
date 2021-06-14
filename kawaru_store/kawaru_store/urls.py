@@ -13,7 +13,9 @@ urlpatterns = [
     path('usuarios/logout', views.logout_view, name='logout'),
     path('usuarios/registro', views.register, name='register'),
     path('admin/', admin.site.urls),
-    path('productos/', include('products.urls')) #productos/id_producto
+    path('productos/', include('products.urls')), #productos/id_producto
+    path('carrito/', include('carts.urls')) #productos/id_producto
+
 ]
 
 if settings.DEBUG: #condicion para mostrar imágenes en los templates

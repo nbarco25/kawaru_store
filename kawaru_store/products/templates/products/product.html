@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block content %}
-
+{% extends 'base.html' %} {% block content %} {% load product_extras %}
 <div class="col-3">
     {% if product.imagen %}
     <img class="img-fluid" src="{{ product.imagen.url }}" alt="Foto de producto" width="200" height="200"> {% endif %}
@@ -12,12 +11,16 @@
 
     <div class="h5 font-weight-bold">
         Precio: <span class="text-danger">
-                ${{ product.precio }}
+                {{ product.precio | formato_precio_cop }}
             </span>
     </div>
 
     <div class="">
         <p>{{ product.descripcion }}</p>
+    </div>
+
+    <div class="">
+        {% include 'carts/snippets/add.html' %}
     </div>
 
 </div>
