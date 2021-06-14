@@ -34,7 +34,17 @@
 </div>
 
 <div class="col">
+    <div class="card">
+        <div class="card-body">
+            <div class="font-weight-bold">
+                Subtotal({{ cart.products.count}}): <span class="text-danger">{{ cart.subtotal | formato_precio_cop }}</span>
+            </div>
 
+            <div class="mt-2">
+                <a href="" class="btn btn-warning">Pagar</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% else %}
 <div class="col">
