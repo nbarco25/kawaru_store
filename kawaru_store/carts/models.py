@@ -12,7 +12,7 @@ class Cart(models.Model):
     #un usuario puede tener muchos carritos, pero un carrito puede o no pertenecer a un usuario 
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     #Un producto puede encontrarse en muchos carritos y un carrito de compras puede tener muchos productos
-    products = models.ManyToManyField(Product)
+    products = models.ManyToManyField(Product, through='CartProducts') #con through hago la relacion entre productos y carrito de compras, a través del modelo CartProducts
     subtotal = models.DecimalField(default=0.0, max_digits=10, decimal_places=2) #suma de todos los precios de los productos
     total = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
     creado_em = models.DateTimeField(auto_now_add=True)
@@ -34,7 +34,14 @@ class Cart(models.Model):
     def actualizar_total(self):
         self.total = self.subtotal + (self.subtotal * decimal.Decimal(Cart.COMISION))
         self.save()
-            
+ 
+class CartProducts(models.Model):
+    #definimos la relacion entre un producto y un carrito
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE) #un carrito puede tener muchos cart products
+    products = models.ForeignKey(Product, on_delete=models.CASCADE) #un producto puede tener muchos cart products
+    cantidad = models.IntegerField(default=1)
+    creado_en = models.DateTimeField(auto_now_add=True)
+           
 def set_cart_id(sender, instance, *args, **kwargs): #callback
     if not instance.cart_id: #Si el carrito no posee un id unico
         instance.cart_id = str(uuid.uuid4())
@@ -47,7 +54,7 @@ def actualizar_total_subtotal(sender, instance, action, *args, **kwargs):
         instance.actualizar_total_subtotal() #calcular total y subtotal
         
     
-    
+
 
 pre_save.connect(set_cart_id, sender=Cart)    
 m2m_changed.connect(actualizar_total_subtotal,sender=Cart.products.through)
