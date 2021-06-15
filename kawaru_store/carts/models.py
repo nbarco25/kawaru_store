@@ -34,7 +34,10 @@ class Cart(models.Model):
     def actualizar_total(self):
         self.total = self.subtotal + (self.subtotal * decimal.Decimal(Cart.COMISION))
         self.save()
- 
+    
+    def productos_relacionados(self):
+        return self.cartproducts_set.select_related('products') #Con esta linea estamos obteniendo todos los objetos cartproduct y también todos los objetos product
+    
 class CartProducts(models.Model):
     #definimos la relacion entre un producto y un carrito
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE) #un carrito puede tener muchos cart products
@@ -57,4 +60,4 @@ def actualizar_total_subtotal(sender, instance, action, *args, **kwargs):
 
 
 pre_save.connect(set_cart_id, sender=Cart)    
-m2m_changed.connect(actualizar_total_subtotal,sender=Cart.products.through)
+m2m_changed.connect(actualizar_total_subtotal,sender=Cart.products.through) #callback para mostrar la cantidad de un sólo producto agregado a un carrito.

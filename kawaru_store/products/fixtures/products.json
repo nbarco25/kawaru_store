@@ -2,7 +2,7 @@
         "model": "products.product",
         "pk": 1,
         "fields": {
-            "nombre": "cßmara Nikon D3100",
+            "nombre": "camara Nikon D3100",
             "descripcion": "camara reflex digital con lente 18-55mm",
             "precio": "800000.00",
             "imagen": "products/camara.png",
