@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from users.models import User
 from products.models import Product
-from django.db.models.signals import pre_save, m2m_changed
+from django.db.models.signals import pre_save, m2m_changed, post_save
 import decimal
 
 # Create your models here.
@@ -28,7 +28,9 @@ class Cart(models.Model):
         
     def actualizar_subtotal(self):
         #El subtotal es la suma del precio de todos los productos
-        self.subtotal = sum([product.precio for product in self.products.all()])
+        self.subtotal = sum([
+            cp.cantidad * cp.products.precio for cp in self.productos_relacionados()
+        ])
         self.save()
         
     def actualizar_total(self):
@@ -37,6 +39,18 @@ class Cart(models.Model):
     
     def productos_relacionados(self):
         return self.cartproducts_set.select_related('products') #Con esta linea estamos obteniendo todos los objetos cartproduct y también todos los objetos product
+
+class CartProductsAdministrador(models.Manager):
+    
+    def crear_actualizar_cantidad(self, cart, products, cantidad=1):
+        object, creado = self.get_or_create(cart=cart, products=products)
+        
+        if not creado:
+            cantidad = object.cantidad + cantidad
+        
+        object.actualizar_cantidad(cantidad)
+        return object #objeto del tipo cartproducts
+    
     
 class CartProducts(models.Model):
     #definimos la relacion entre un producto y un carrito
@@ -44,6 +58,12 @@ class CartProducts(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE) #un producto puede tener muchos cart products
     cantidad = models.IntegerField(default=1)
     creado_en = models.DateTimeField(auto_now_add=True)
+    
+    objects = CartProductsAdministrador()
+    
+    def actualizar_cantidad(self, cantidad=1):
+        self.cantidad = cantidad
+        self.save()
            
 def set_cart_id(sender, instance, *args, **kwargs): #callback
     if not instance.cart_id: #Si el carrito no posee un id unico
@@ -56,8 +76,10 @@ def actualizar_total_subtotal(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
         instance.actualizar_total_subtotal() #calcular total y subtotal
         
-    
+def post_save_actualizar_total_subtotal(sender, instance, *args, **kwargs):
+    instance.cart.actualizar_total_subtotal() 
 
 
-pre_save.connect(set_cart_id, sender=Cart)    
+pre_save.connect(set_cart_id, sender=Cart) 
+post_save.connect(post_save_actualizar_total_subtotal, sender=CartProducts)   
 m2m_changed.connect(actualizar_total_subtotal,sender=Cart.products.through) #callback para mostrar la cantidad de un sólo producto agregado a un carrito.
