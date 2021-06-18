@@ -1,0 +1,14 @@
+PARA SACAR LOS DATOS DE UNA TABLA EN UN ARCHIVO JSON
+python manage.py dumpdata products.product --format=json --indent=4 > products/fixtures/products.json
+
+PARA RESTAURAR LOS DATOS DE UNA TABLA EN MI BD DESDE EL ARCHIVO JSON OBTENIDO ANTERIORMENTE
+python manage.py loaddata products.json (archivo json ubicado en fixtures)
+
+shell interactivo de django
+
+python manage.py shell
+
+from users.models import Customer
+
+customer = Customer.objects.get(pk=1) --> usuario con llave primaria 1
+customer.get_products() --->podemos hacer uso de los métodos de la clase
