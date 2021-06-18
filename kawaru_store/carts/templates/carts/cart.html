@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% load product_extras %} {% block content %} {% if cart.products.exists %}
+<div class="col-8">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cp in cart.productos_relacionados %} {% with product=cp.products %}
+
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>
+                    {% if product.imagen %}
+                    <img src="{{ product.imagen.url }}" alt="Imagen de producto" width="50" height="50"> {% endif %}
+                </th>
+                <th>
+                    <a href="{% url 'products:product' product.slug %}">{{ product.nombre }}</a> {% include 'carts/snippets/remove.html' %}
+                </th>
+                <th>{{cp.cantidad}}</th>
+                <th>
+                    <span class="font-weight-bold text-danger">{{ product.precio | formato_precio_cop}}</span>
+                </th>
+
+            </tr>
+            {% endwith %} {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<div class="col">
+    <div class="card">
+        <div class="card-body">
+            <div class="font-weight-bold">
+                Subtotal({{ cart.products.count}}): <span class="text-danger">{{ cart.subtotal | formato_precio_cop }}</span>
+            </div>
+
+            <div class="mt-2">
+                <a href="" class="btn btn-warning">Pagar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="col">
+    <p class="h3">Tu carrito de compras está vacío</p>
+    <a href="{% url 'index' %}">Seguir comprando</a>
+</div>
+{% endif %} {% endblock content %}

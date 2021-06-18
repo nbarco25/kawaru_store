@@ -4,24 +4,18 @@ from django.contrib.auth import login, logout #para generar la sesión
 from django.contrib import messages
 from .forms import RegisterForm
 from django.contrib.auth.models import User
-
+from products.models import Product
 
 
 
 def index(request):
- 
+     
+    lista_productos = Product.objects.all().order_by('-id') #obtengo la lista de productos ordenados del mas reciente al más antiguo, luego lo muestro en el template  index.html
+    
     return render(request,'index.html',{
         'titulo': 'Kawaru',
         'message': 'Listado de productos',
-        'entero': 23,
-        'booleano': True,
-        'lista': [1,2,3,3,5,3],
-        
-        'productos': [
-            {'titulo': 'Televisor', 'Precio': 2000000, 'stock': True}, #producto
-            {'titulo': 'Carro', 'Precio': 12000000, 'stock': True },
-            {'titulo': 'Computador', 'Precio': 800000, 'stock': False}
-        ]
+        'productos': lista_productos #variable donde guardo la lista de los productos obtenidos y con la que voy a trabajar en el template index.html
     })
     
 def login_view(request):

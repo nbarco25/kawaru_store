@@ -1,0 +1,49 @@
+[{
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "nombre": "camara Nikon D3100",
+            "descripcion": "camara reflex digital con lente 18-55mm",
+            "precio": "800000.00",
+            "imagen": "products/camara.png",
+            "slug": "camara-nikon-d3100",
+            "creado_en": "2021-06-08T23:41:58.083Z"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "nombre": "Cama",
+            "descripcion": "Cama de 1.50 m",
+            "precio": "140000.00",
+            "imagen": "products/camas.png",
+            "slug": "cama",
+            "creado_en": "2021-06-09T00:03:59.840Z"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 3,
+        "fields": {
+            "nombre": "Computador",
+            "descripcion": "dell i5 ram 12gb",
+            "precio": "200000.00",
+            "imagen": "products/ordenador-personal.png",
+            "slug": "computador",
+            "creado_en": "2021-06-09T01:09:01.725Z"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 4,
+        "fields": {
+            "nombre": "audifonos",
+            "descripcion": "auriculares sony",
+            "precio": "120000.00",
+            "imagen": "products/audifonos-inalambricos.png",
+            "slug": "audifonos",
+            "creado_en": "2021-06-09T02:30:37.108Z"
+        }
+    }
+]

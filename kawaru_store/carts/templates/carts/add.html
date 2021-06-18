@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% load product_extras %} {% load cart_extras %} {% block content %}
+<div class="col-3">
+
+    {% if product.imagen %}
+    <img src="{{ product.imagen.url }}" alt="Imagen del producto" width="100" height="100"> {% endif %}
+
+</div>
+
+<div class="col">
+    <div class="h3 font-weight-bold text-success">
+        {{ cantidad | formato_productos_agregados}} al carrito
+    </div>
+    <div class="">
+        <a href="{ url 'products:product' product.slug}">
+            {{ product.nombre }}
+        </a>
+    </div>
+
+    <div class="font-weight-bold text-danger">
+        {{ product.precio | formato_precio_cop }}
+    </div>
+
+    <div class="">
+        <a href="{% url 'index' %}">Seguir comprando</a>
+    </div>
+
+    <div class="">
+        <a href="{% url 'carts:cart' %}" class="btn btn-dark">Ver carrito</a>
+    </div>
+</div>
+
+
+{% endblock content %}
