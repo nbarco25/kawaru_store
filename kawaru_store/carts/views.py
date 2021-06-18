@@ -26,6 +26,8 @@ def add(request):
     cart_product = CartProducts.objects.crear_actualizar_cantidad(cart=cart, products=product, cantidad=cantidad)
     
     return render(request, 'carts/add.html', {
+        'cantidad': cantidad,
+        'cart_product': cart_product,
         'product': product #enviar el producto al template
     }) 
     
