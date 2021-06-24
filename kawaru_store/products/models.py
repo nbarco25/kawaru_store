@@ -2,7 +2,13 @@ import uuid
 from django.db import models
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
+from users.models import *
 
+estados = (
+    ('disponible','Disponible'),
+    ('no disponible','No disponible'),
+    ('vendido','Vendido'),
+)
 
 class Product(models.Model):
     nombre = models.CharField(max_length=50)
@@ -11,7 +17,9 @@ class Product(models.Model):
     imagen = models.ImageField(upload_to='products/', null=False, blank=False)
     slug = models.SlugField(null=False, blank=False, unique=True)
     creado_en = models.DateTimeField(auto_now_add=True) #para que se tome la fecha y hora exacta de creación desde el sist
-    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    estado = models.CharField(max_length=50,choices=estados)
+    cantidad = models.PositiveIntegerField()
     #def save(self, *args, **kwargs):
     #    self.slug = slugify(self.nombre)
     #    super(Product, self).save(*args, **kwargs)
@@ -30,5 +38,3 @@ def set_slug(sender, instance, *args, **kwargs): #callback
         instance.slug = slug
                 
 pre_save.connect(set_slug, sender=Product)
-    
-    

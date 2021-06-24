@@ -6,6 +6,6 @@ app_name = 'products' #Todas las rutas definidas aqui van a ser de la aplicació
 urlpatterns = [
     path('search', views.ProductSearchListView.as_view(), name='search'),
     path('<slug:slug>', views.ProductDetailView.as_view(), name='product'), #Definimos la ruta en la que va a buscar por el campo slug que será de tipo slug en la url
-
+    path('crearproducto/', views.ProductCreateView.as_view(), name='crearproducto'),
     #path('<pk>', views.ProductDetailView.as_view(), name='product') #id = pk ruta para definir una ruta /id de algun producto
 ]

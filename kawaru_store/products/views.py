@@ -1,8 +1,11 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from .models import Product
 from django.views.generic.detail import DetailView
 from django.db.models import Q #aplicar consulta con dif filtros
+from django.views.generic.edit import CreateView #Crear un nuevo producto
+from django.urls import reverse_lazy
 
 class ProductListView(ListView):
     template_name = 'index.html'
@@ -44,4 +47,31 @@ class ProductSearchListView(ListView):
         context['count'] = context['product_list'].count()
         print(context) #aqui encontraremos la llave product que vamos a usar en el template
         return context
+
+# def product_add_view (request):
+	# u = User.objects.get(id = request.user.id)
+    # p = None
+	# if request.method == 'POST':
+		# form = product_add_for(request.POST, request.FILES)
+		# if form.is_valid():
+			# p = form.save(commit=False)
+			# p.usuario = u
+			# p.save()
+			# messages.success(request, 'Muestra agregada satisfactoriamente')	
+	# form = product_add_form()
+	# return render (request, 'product_add.html', locals())
+
+
+class ProductCreateView(CreateView):
+    model  =  Product
+    fields = ['nombre','descripcion','precio','imagen','cantidad','estado','usuario']
+    success_url = reverse_lazy('index')
     
+# 
+# 
+    # def get_initial(self, request, *args, **kwargs):
+        # 
+        # u = User.objects.get(id  =request.user.id)
+        # initial = super(ProductCreateView, self).get_initial(**kwargs)
+        # initial['usuario'] = u
+        # return initial
